@@ -5,8 +5,12 @@ import { TouchableOpacity, Text } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 
 import { theme } from "../../theme";
+import { feedbackTypes } from "../../utils/feedbackTypes";
 import { Options } from "../Options";
+import { WidgetForm } from "../WidgetForm";
 import { styles } from "./styles";
+
+export type FeedbackType = keyof typeof feedbackTypes;
 
 function WidgetComponent() {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -31,7 +35,8 @@ function WidgetComponent() {
         backgroundStyle={styles.modal}
         handleIndicatorStyle={styles.indicator}
       >
-        <Options />
+        {/* <Options /> */}
+        <WidgetForm feedbackType={"OTHER"} />
       </BottomSheet>
     </>
   );
