@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { theme } from "../../theme";
+import { theme } from "../../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -36,5 +36,8 @@ export const styles = StyleSheet.create({
     borderColor: theme.colors.stroke,
     fontFamily: theme.fonts.regular,
   },
-  footer: {},
+  footer: {
+    flexDirection: "row",
+    marginBottom: 16,
+  },
 });
