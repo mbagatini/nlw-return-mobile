@@ -24,6 +24,8 @@
   <img src="https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white" />
  </p>
 
+[Go to project home page](https://github.com/mbagatini/nlw-return-impulse)
+
 ### How to run it?
 
 Clone the repository to your machine.
