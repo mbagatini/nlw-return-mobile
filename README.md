@@ -16,7 +16,13 @@
 
 ## Mobile
 
-The mobile app of this project is built with React Native and Expo.
+### Technology Stack
+
+<p align="left">
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white" />
+ </p>
 
 ### How to run it?
 
