@@ -1,14 +1,16 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import { ChatTeardropDots } from "phosphor-react-native";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { TouchableOpacity, Text } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 
 import { theme } from "../../theme";
 import { feedbackTypes } from "../../utils/feedbackTypes";
-import { Options } from "../Options";
-import { WidgetForm } from "../WidgetForm";
 import { styles } from "./styles";
+
+import { Options } from "../Options";
+import { Form } from "./Form";
+import { Success } from "./Success";
 
 export type FeedbackType = keyof typeof feedbackTypes;
 
@@ -18,6 +20,20 @@ function WidgetComponent() {
   const handleOpenBottomSheet = () => {
     bottomSheetRef.current?.expand();
   };
+
+  const [isFeedbackSent, setIsFeedbackSent] = useState(false);
+  const [optionSelected, setOptionSelected] = useState<FeedbackType | null>(
+    null
+  );
+
+  function handleResetFeedback() {
+    setIsFeedbackSent(false);
+    setOptionSelected(null);
+  }
+
+  function handleFeedbackSent() {
+    setIsFeedbackSent(true);
+  }
 
   return (
     <>
@@ -35,8 +51,21 @@ function WidgetComponent() {
         backgroundStyle={styles.modal}
         handleIndicatorStyle={styles.indicator}
       >
-        {/* <Options /> */}
-        <WidgetForm feedbackType={"OTHER"} />
+        {isFeedbackSent ? (
+          <Success onReset={handleResetFeedback} />
+        ) : (
+          <>
+            {optionSelected ? (
+              <Form
+                feedbackType={optionSelected}
+                onResetFeedback={handleResetFeedback}
+                onFeedbackSent={handleFeedbackSent}
+              />
+            ) : (
+              <Options onChange={setOptionSelected} />
+            )}
+          </>
+        )}
       </BottomSheet>
     </>
   );
