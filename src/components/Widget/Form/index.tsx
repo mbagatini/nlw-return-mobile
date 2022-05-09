@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import { readAsStringAsync } from "expo-file-system";
 import { ArrowLeft } from "phosphor-react-native";
-import { TouchableOpacity, View, Text, Image, TextInput } from "react-native";
+import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { captureScreen } from "react-native-view-shot";
 
-import { styles } from "./styles";
+import { api } from "../../../libs/api";
 import { theme } from "../../../theme";
 import { feedbackTypes } from "../../../utils/feedbackTypes";
-import { FeedbackType } from "../../Widget";
-import { ScreenshotButton } from "../../ScreenshotButton";
+
 import { Button } from "../../Button";
+import { ScreenshotButton } from "../../ScreenshotButton";
+import { FeedbackType } from "../../Widget";
+
+import { styles } from "./styles";
 
 interface FormProps {
   feedbackType: FeedbackType;
@@ -23,8 +27,9 @@ export function Form({
 }: FormProps) {
   const feedbackTypeInfo = feedbackTypes[feedbackType];
 
-  const [isSubmitting, setIsSubmitting] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [screenshot, setScreenshot] = useState<string | null>(null);
+  const [comment, setComment] = useState("");
 
   function handleScreenshotTaken() {
     captureScreen({
@@ -39,15 +44,21 @@ export function Form({
     setScreenshot(null);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    try {
-      //code
-    } catch (error) {}
+    const imgBase64 = screenshot && (await readAsStringAsync(screenshot));
 
-    onFeedbackSent();
+    try {
+      await api.post("/feedback", {
+        type: feedbackType,
+        screenshot: `data:image/png;base64,${imgBase64}`,
+        comment,
+      });
+
+      onFeedbackSent();
+    } catch (error) {}
   }
 
   return (
@@ -72,6 +83,8 @@ export function Form({
           multiline
           placeholder="Algo não está funcionando bem? Queremos corrigir. Conte com detalhes o que está acontecendo..."
           placeholderTextColor={theme.colors.text_secondary}
+          value={comment}
+          onChangeText={setComment}
         />
 
         <View style={styles.footer}>
